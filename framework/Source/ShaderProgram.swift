@@ -165,6 +165,28 @@ public class ShaderProgram {
         }
     }
 
+    public func setArrayOfVectors(_ value: [GLfloat], forUniform: String, dimensions: Int, capacity: Int) {
+        guard let uniformAddress = uniformIndex(forUniform) else {
+            debugPrint("Warning: Tried to set a uniform (\(forUniform)) that was missing or optimized out by the compiler")
+            return
+        }
+        if let previousValue = currentUniformFloatArrayValues[forUniform], previousValue == value{
+        } else {
+            if dimensions == 1 {
+                glUniform1fv(uniformAddress, GLsizei(capacity), value)
+            } else if dimensions == 2 {
+                glUniform2fv(uniformAddress, GLsizei(capacity), value)
+            } else if dimensions == 3 {
+                glUniform3fv(uniformAddress, GLsizei(capacity), value)
+            } else {
+                fatalError("Not implemented")
+            }
+
+            currentUniformFloatArrayValues[forUniform] = value
+        }
+    }
+
+
     public func setMatrix(_ value:[GLfloat], forUniform:String) {
         guard let uniformAddress = uniformIndex(forUniform) else {
             debugPrint("Warning: Tried to set a uniform (\(forUniform)) that was missing or optimized out by the compiler")
