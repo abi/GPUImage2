@@ -182,7 +182,7 @@ public class TargetContainer:Sequence {
 
 
 public class SourceContainer {
-    var sources:[UInt:ImageSource] = [:]
+    public var sources:[UInt:ImageSource] = [:]
     
     public init() {
     }

@@ -1,10 +1,10 @@
 import OpenGLES
 import UIKit
 
-public class PictureInput: ImageSource {
+open class PictureInput: ImageSource {
     public let targets = TargetContainer()
-    var imageFramebuffer:Framebuffer!
-    var hasProcessedImage:Bool = false
+    open var imageFramebuffer:Framebuffer!
+    open var hasProcessedImage:Bool = false
     
     public init(image:CGImage, smoothlyScaleOutput:Bool = false, orientation:ImageOrientation = .portrait) {
         // TODO: Dispatch this whole thing asynchronously to move image loading off main thread
@@ -144,5 +144,11 @@ public class PictureInput: ImageSource {
             imageFramebuffer.lock()
             target.newFramebufferAvailable(imageFramebuffer, fromSourceIndex:atIndex)
         }
+    }
+    
+    // Mir - Nichita - Allows the clone extension to create another PictureInput w/o recalculating the framebuffer
+    public init(framebuffer: Framebuffer, hasProcessedImage: Bool) {
+        self.imageFramebuffer = framebuffer
+        self.hasProcessedImage = hasProcessedImage
     }
 }
